@@ -1,4 +1,5 @@
 def admin_login():
+    """ Function to handle admin login. It prompts the user for a username and password, then checks these credentials against entries in the 'admin.txt' file. If a match is found, it returns the username and role; otherwise, it indicates an invalid login attempt."""
     username = input("Enter username: ")
     password = input("Enter password: ")
 
@@ -17,6 +18,7 @@ def admin_login():
 
 
 def staff_login():
+    """ Function to handle staff login. Similar to the admin_login function, it prompts for credentials and checks them against the 'staff.txt' file. If a match is found, it returns the username and role; otherwise, it indicates an invalid login attempt."""
     username = input("Enter username: ")
     password = input("Enter password: ")
 
@@ -34,7 +36,8 @@ def staff_login():
     return None, None
 
 
-def View_products():
+def view_products():
+    """ Function to display the list of products. It reads from the 'products.txt' file and prints each product's name and price. If the file is not found, it handles the exception and informs the user."""
     try:
         with open("products.txt", "r") as f:
             for line in f:
@@ -45,6 +48,7 @@ def View_products():
 
 
 def create_order():
+    """ Function to create a new order. It prompts the user for order details and appends them to the 'orders.txt' file. If the file is not found, it handles the exception and informs the user."""
     try:
         order = input("Enter order Details : ")
         if order == "":
@@ -59,6 +63,7 @@ def create_order():
 
 
 def create_product():
+    """ Function to create a new product. It prompts the user for the product name and price, then appends this information to the 'products.txt' file. If the file is not found, it handles the exception and informs the user."""
     product_name = input("Enter Product name: ")
     price = input("Enter Product price: ")
 
@@ -73,6 +78,7 @@ def create_product():
 
 
 def main():
+    """ Main function to run the cafe management system. It prompts the user to identify as either an admin or staff, then allows them to view products or create products/orders based on their role. The program continues to loop until the user decides to exit."""
     while True:
         choice = input("Are you an admin or staff? (admin/staff): ")
         if choice.lower() == "admin":
@@ -81,7 +87,7 @@ def main():
                 d = input(
                     "Do you want to view products or create product? (view/create): ")
                 if d.lower() == "view":
-                    View_products()
+                    view_products()
                 elif d.lower() == "create":
                     create_product()
             else:
@@ -92,7 +98,7 @@ def main():
                 c = input(
                     "Do you want to view products or create order? (view/create): ")
                 if c.lower() == "view":
-                    View_products()
+                    view_products()
                 elif c.lower() == "create":
                     create_order()
             else:
