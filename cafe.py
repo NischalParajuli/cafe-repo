@@ -1,3 +1,49 @@
+def register_admin():
+    """ Function to handle user registration. It prompts the user for a username and password, then appends these credentials to the 'admin.txt' file. If the file is not found, it handles the exception and informs the user."""
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    admin_code = input("Enter admin code: ")
+
+    try:  # exception Handling to catch file not found error
+        with open("admin.txt", 'a') as f:
+            f.write(f"{username},{password},{admin_code}\n")
+        print("Registration successful.")
+
+    except FileNotFoundError as e:
+        print(e)
+        return
+
+
+def register_staff():
+    """ Function to handle staff registration. Similar to the register_admin function, it prompts for a username and password, then appends these credentials to the 'staff.txt' file. If the file is not found, it handles the exception and informs the user."""
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+
+    try:
+        with open("staff.txt", 'a') as f:
+            f.write(f"{username},{password}\n")
+        print("Registration successful.")
+
+    except FileNotFoundError as e:
+        print(e)
+        return
+
+
+def register_customer():
+    """ Function to handle customer registration. It prompts the user for a username and password, then appends these credentials to the 'customer.txt' file. If the file is not found, it handles the exception and informs the user."""
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+
+    try:
+        with open("customer.txt", 'a') as f:
+            f.write(f"{username},{password}\n")
+        print("Registration successful.")
+
+    except FileNotFoundError as e:
+        print(e)
+        return
+
+
 def admin_login():
     """ Function to handle admin login. It prompts the user for a username and password, then checks these credentials against entries in the 'admin.txt' file. If a match is found, it returns the username and role; otherwise, it indicates an invalid login attempt."""
     username = input("Enter username: ")
@@ -80,12 +126,28 @@ def create_product():
 def main():
     """ Main function to run the cafe management system. It prompts the user to identify as either an admin or staff, then allows them to view products or create products/orders based on their role. The program continues to loop until the user decides to exit."""
     while True:
-        choice = input("Are you an admin or staff? (admin/staff): ")
-        if choice.lower() == "admin":
-            user_role = admin_login()
-            if user_role[0] is not None:
-                d = input(
-                    "Do you want to view products or create product? (view/create): ")
+        choice = input("1) Register | 2) Login | 3) Exit: ")
+        if choice.lower() == "register":
+
+            register_choice = input(
+                "Register as admin, staff, or customer? (admin/staff/customer): ")
+            if register_choice.lower() == "admin":
+                register_admin()
+
+            elif register_choice.lower() == "staff":
+                register_staff()
+            elif register_choice.lower() == "customer":
+                register_customer()
+
+        elif choice.lower() == "login":
+
+            login_choice = input("Login as admin or staff? (admin/staff): ")
+            if login_choice.lower() == "admin":
+                user_role = admin_login()
+
+                if user_role[0] is not None:
+                    d = input(
+                        "Do you want to view products or create product? (view/create): ")
                 if d.lower() == "view":
                     view_products()
                 elif d.lower() == "create":
