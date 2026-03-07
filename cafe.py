@@ -1,3 +1,5 @@
+# Registration and login functions for admin, staff, and customer
+
 def register_admin():
     username = input("Enter username: ")
     password = input("Enter password: ")
@@ -78,6 +80,7 @@ def customer_login():
         print(e)
     return None, None
 
+# Product viewing and order creation functions
 
 def view_products():
     try:
@@ -112,6 +115,7 @@ def create_product():
     except FileNotFoundError:
         print("Products file not found.")
 
+# Main function to handle user interactions
 
 def main():
     while True:
@@ -145,7 +149,7 @@ def main():
                     else:
                         print("Invalid choice.")
 
-            elif login_choice == 2:                          # ← FIX: was outdented
+            elif login_choice == 2:                         
                 user_role = staff_login()
                 if user_role[0] is not None:
                     c = input("View products or create order? (view/create): ")
@@ -156,7 +160,7 @@ def main():
                     else:
                         print("Invalid choice.")
 
-            elif login_choice == 3:                          # ← FIX: was outdented
+            elif login_choice == 3:                        
                 user_role = customer_login()
                 if user_role[0] is not None:
                     view_products()
@@ -170,6 +174,8 @@ def main():
 
         else:
             print("Invalid choice.")
+            
+# Ask user if they want to continue or exit
 
         choice2 = int(input("Do you want to continue? (1) Yes / (2) No: "))
         if choice2 != 1:
