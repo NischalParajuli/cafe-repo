@@ -1,177 +1,179 @@
 def register_admin():
-    """ Function to handle user registration. It prompts the user for a username and password, then appends these credentials to the 'admin.txt' file. If the file is not found, it handles the exception and informs the user."""
     username = input("Enter username: ")
     password = input("Enter password: ")
-    admin_code = input("Enter admin code: ")
-
-    try:  # exception Handling to catch file not found error
+    try:
         with open("admin.txt", 'a') as f:
-            f.write(f"{username},{password},{admin_code}\n")
+            f.write(f"{username},{password}\n")
         print("Registration successful.")
-
     except FileNotFoundError as e:
         print(e)
-        return
 
 
 def register_staff():
-    """ Function to handle staff registration. Similar to the register_admin function, it prompts for a username and password, then appends these credentials to the 'staff.txt' file. If the file is not found, it handles the exception and informs the user."""
     username = input("Enter username: ")
     password = input("Enter password: ")
-
     try:
         with open("staff.txt", 'a') as f:
             f.write(f"{username},{password}\n")
         print("Registration successful.")
-
     except FileNotFoundError as e:
         print(e)
-        return
 
 
 def register_customer():
-    """ Function to handle customer registration. It prompts the user for a username and password, then appends these credentials to the 'customer.txt' file. If the file is not found, it handles the exception and informs the user."""
     username = input("Enter username: ")
     password = input("Enter password: ")
-
     try:
         with open("customer.txt", 'a') as f:
             f.write(f"{username},{password}\n")
         print("Registration successful.")
-
     except FileNotFoundError as e:
         print(e)
-        return
 
 
 def admin_login():
-    """ Function to handle admin login. It prompts the user for a username and password, then checks these credentials against entries in the 'admin.txt' file. If a match is found, it returns the username and role; otherwise, it indicates an invalid login attempt."""
     username = input("Enter username: ")
     password = input("Enter password: ")
-
     try:
         with open("admin.txt", 'r') as f:
             for line in f:
                 parts = line.strip().split(",")
                 if parts[0] == username and parts[1] == password:
-                    print("login successful")
+                    print("Login successful.")
                     return username, "admin"
         print("Invalid username or password.")
-
     except FileNotFoundError as e:
         print(e)
     return None, None
 
 
 def staff_login():
-    """ Function to handle staff login. Similar to the admin_login function, it prompts for credentials and checks them against the 'staff.txt' file. If a match is found, it returns the username and role; otherwise, it indicates an invalid login attempt."""
     username = input("Enter username: ")
     password = input("Enter password: ")
-
     try:
         with open("staff.txt", 'r') as f:
             for line in f:
                 parts = line.strip().split(",")
                 if parts[0] == username and parts[1] == password:
-                    print("login sucessfull")
+                    print("Login successful.")
                     return username, "staff"
         print("Invalid username or password.")
+    except FileNotFoundError as e:
+        print(e)
+    return None, None
 
+
+def customer_login():
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    try:
+        with open("customer.txt", 'r') as f:
+            for line in f:
+                parts = line.strip().split(",")
+                if parts[0] == username and parts[1] == password:
+                    print("Login successful.")
+                    return username, "customer"
+        print("Invalid username or password.")
     except FileNotFoundError as e:
         print(e)
     return None, None
 
 
 def view_products():
-    """ Function to display the list of products. It reads from the 'products.txt' file and prints each product's name and price. If the file is not found, it handles the exception and informs the user."""
     try:
         with open("products.txt", "r") as f:
             for line in f:
                 parts = line.strip().split(",")
-                print(f"Name:{parts[0]} | price: {parts[1]}\n")
+                print(f"Name: {parts[0]} | Price: {parts[1]}\n")
     except FileNotFoundError:
-        print("Product File not found.")
+        print("Product file not found.")
 
 
 def create_order():
-    """ Function to create a new order. It prompts the user for order details and appends them to the 'orders.txt' file. If the file is not found, it handles the exception and informs the user."""
     try:
-        order = input("Enter order Details : ")
+        order = input("Enter order details: ")
         if order == "":
             print("Order cannot be empty.")
         else:
             with open("orders.txt", 'a') as f:
                 f.write(order + '\n')
             print("Order created successfully.")
-
     except FileNotFoundError:
         print("Orders file not found.")
 
 
 def create_product():
-    """ Function to create a new product. It prompts the user for the product name and price, then appends this information to the 'products.txt' file. If the file is not found, it handles the exception and informs the user."""
-    product_name = input("Enter Product name: ")
-    price = input("Enter Product price: ")
-
+    product_name = input("Enter product name: ")
+    price = input("Enter product price: ")
     try:
         with open("products.txt", "a") as f:
             f.write(f"{product_name},{price}\n")
         print("Product created successfully.")
-
     except FileNotFoundError:
         print("Products file not found.")
-        return
 
 
 def main():
-    """ Main function to run the cafe management system. It prompts the user to identify as either an admin or staff, then allows them to view products or create products/orders based on their role. The program continues to loop until the user decides to exit."""
     while True:
-        choice = input("1) Register | 2) Login | 3) Exit: ")
-        if choice.lower() == "register":
+        choice = int(input("1) Register | 2) Login | 3) Exit: "))
 
-            register_choice = input(
-                "Register as admin, staff, or customer? (admin/staff/customer): ")
-            if register_choice.lower() == "admin":
+        if choice == 1:
+            register_choice = int(
+                input("Register as: (1) Admin / (2) Staff / (3) Customer: "))
+            if register_choice == 1:
                 register_admin()
-
-            elif register_choice.lower() == "staff":
+            elif register_choice == 2:
                 register_staff()
-            elif register_choice.lower() == "customer":
+            elif register_choice == 3:
                 register_customer()
+            else:
+                print("Invalid choice.")
 
-        elif choice.lower() == "login":
+        elif choice == 2:
+            login_choice = int(
+                input("Login as: (1) Admin / (2) Staff / (3) Customer: "))
 
-            login_choice = input("Login as admin or staff? (admin/staff): ")
-            if login_choice.lower() == "admin":
+            if login_choice == 1:
                 user_role = admin_login()
-
                 if user_role[0] is not None:
                     d = input(
-                        "Do you want to view products or create product? (view/create): ")
-                if d.lower() == "view":
+                        "View products or create product? (view/create): ")
+                    if d.lower() == "view":
+                        view_products()
+                    elif d.lower() == "create":
+                        create_product()
+                    else:
+                        print("Invalid choice.")
+
+            elif login_choice == 2:                          # ← FIX: was outdented
+                user_role = staff_login()
+                if user_role[0] is not None:
+                    c = input("View products or create order? (view/create): ")
+                    if c.lower() == "view":
+                        view_products()
+                    elif c.lower() == "create":
+                        create_order()
+                    else:
+                        print("Invalid choice.")
+
+            elif login_choice == 3:                          # ← FIX: was outdented
+                user_role = customer_login()
+                if user_role[0] is not None:
                     view_products()
-                elif d.lower() == "create":
-                    create_product()
+
             else:
                 print("Invalid choice.")
 
-        elif choice.lower() == "staff":
-            if staff_login()[0] is not None:
-                c = input(
-                    "Do you want to view products or create order? (view/create): ")
-                if c.lower() == "view":
-                    view_products()
-                elif c.lower() == "create":
-                    create_order()
-            else:
-                print("Invalid choice.")
+        elif choice == 3:
+            print("Thank you!")
+            break
+
         else:
             print("Invalid choice.")
 
-        # loops back to the start of the program
-        choice2 = input("Do you want to continue? (yes/no): ")
-        if choice2.lower() != "yes":
-            print("Thank you")
+        choice2 = int(input("Do you want to continue? (1) Yes / (2) No: "))
+        if choice2 != 1:
+            print("Thank you!")
             break
 
 
